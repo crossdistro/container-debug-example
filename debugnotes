@@ -1,0 +1,23 @@
+# Testing network services
+
+  * One debugger driver driving the whole test
+      - Unpacked image/tarball with distribution root
+  * Driver creates one debugger for each namespace (or alternatively one debugger as part of the driver)
+  * For each system
+      - Unshare mount namespace
+      - Use image/tarball file for lower dir (alternatively use current root)
+      - Create tmpfs for upper dir (for changes)
+      - Create workdir for overlayfs operation
+      - OverlayFS using mount with lower, upper and workdir as options to new mount point
+      - Use the new mount point for pivot_root, keeping the original root
+      - You can use the original root for data, logs and more
+      - Spawn all services to be debugged
+  * For each debugger (alternatively for each debugged process)
+      - Unshare network
+  * For each debugger pair in debugger driver
+      - Create veth and/or hwsim
+      - Move those into namespaces by file descriptor for `os.open("/proc/$PID/ns/net")`
+
+References:
+
+https://github.com/dbecvarik/pycoz
