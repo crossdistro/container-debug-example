@@ -316,7 +316,7 @@ Thanks Peter V. Savaliev for creating the `pyroute2` package!
 
 Thanks Victor Stinner for creating `python-ptrace` package!
 
-# Debugging in Python (
+# Debugging in Python (the event loop)
 
     while True:
         process.syscall()
