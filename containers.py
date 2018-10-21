@@ -50,7 +50,6 @@ def _encode(name):
 def unshare(flags):
     return _check(libc.unshare(flags))
 
-# TODO: support ffi.NULL
 def mount(source, target, fstype, flags, data):
     return _check(libc.mount(
         _encode(source),
@@ -170,12 +169,10 @@ def netns_with_veth():
         veth.add_ip("192.168.0.2/24")
         veth.up()
 
-    ip.commit()
     ip.release()
     ns.release()
 
     # Switch namespace
-    #unshare(CLONE_NEWNET)
     pyroute2.netns.setns("pycoz")
 
 if __name__ == "__main__":

@@ -6,9 +6,6 @@ import ptrace.debugger
 
 import containers
 
-def run(command):
-    return subprocess.run(command, shell=True, check=True)
-
 containers.pivot_temporary_overlay()
 containers.netns_with_veth()
 
@@ -19,13 +16,12 @@ process = debugger.addProcess(ptrace.debugger.child.createChild(command, False),
 
 while True:
     process.syscall()
-    #event = debugger.waitProcessEvent()
     event = debugger.waitProcessEvent()
     if isinstance(event, ptrace.debugger.ProcessExit):
         break
     elif isinstance(event, ptrace.debugger.ProcessSignal):
-        print(event.signum)
-        print(event.name)
+        #print(event.signum)
+        #print(event.name)
         print(process.syscall_state.event(ptrace.func_call.FunctionCallOptions()))
 
 debugger.quit()
